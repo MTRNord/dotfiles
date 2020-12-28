@@ -1,0 +1,92 @@
+{
+    "modules-right": [
+        "custom/pacman",
+        "custom/df-root",
+        "custom/df-home",
+        "custom/media",
+        "network",
+        "pulseaudio",
+        "custom/mpris-volume",
+        "clock#date",
+        "clock#clock"
+    ],
+    "custom/pacman": {
+        "format": " {}",
+        "exec": "~/.config/waybar/modules/pacman.sh",
+        "interval": "once",
+        "signal": 7,
+        "on-click": "swaymsg exec -- alacritty -e bash -c '\"pikaur -Syu; pkill -SIGRTMIN+7 waybar\"'",
+        "tooltip": false
+    },
+    "custom/df-root": {
+        "exec": "~/.config/waybar/modules/df.sh /",
+        "interval": 60,
+        "format": "<span color='#888'> /</span> {}",
+        "tooltip": false
+    },
+    "custom/df-home": {
+        "exec": "~/.config/waybar/modules/df.sh /home",
+        "interval": 60,
+        "format": "<span color='#888'> </span> {}",
+        "tooltip": false
+    },
+    "network": {
+        "interface": "enp5s0",
+        "format-ethernet": "",
+        "format-disconnected": "",
+        "on-click": "alacritty -e nmtui",
+        "tooltip": false
+    },
+    "pulseaudio": {
+        "format": "<span color='#888'>{icon}</span> {volume} %",
+        "format-bluetooth": "<span color='#888'>{icon} </span> {volume} %",
+        "format-muted": "<span color='#888'></span>",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": [
+                "",
+                ""
+            ]
+        },
+        "on-click": "pavucontrol",
+        "on-scroll-up": "pamixer -i 5",
+        "on-scroll-down": "pamixer -d 5",
+        "tooltip": false
+    },
+    "custom/mpris-volume": {
+        "exec": "playerctl volume | awk '{ printf \"%.f\", $1 * 100 }'",
+        "interval": 60,
+        "signal": 10,
+        "format": "<span color='#888'></span> {} %",
+        "on-click": "playerctl play-pause",
+        "on-click-right": "playerctl stop",
+        "on-scroll-up": "playerctl volume 0.05+; pkill -SIGRTMIN+10 waybar",
+        "on-scroll-down": "playerctl volume 0.05-; pkill -SIGRTMIN+10 waybar",
+        "tooltip": false
+    },
+    "clock#date": {
+        "format": "<span color='#888'></span> {:%d.%m.}",
+        "tooltip": false
+    },
+    "clock#clock": {
+        "format": "<span color='#888'></span> {:%H∶%M}",
+        "tooltip": false
+    },
+    "custom/media": {
+        "format": "{icon} {}",
+        "return-type": "json",
+        "max-length": 40,
+        "format-icons": {
+            "spotify": "",
+            "firefox": "",
+            "default": "🎜"
+        },
+        "escape": true,
+        "exec": "python3 $HOME/.config/waybar/modules/mediaplayer.py 2> /dev/null"
+    }
+}

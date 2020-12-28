@@ -1,0 +1,13 @@
+
+[Unit]
+Description=Launchpad S macro controlling
+#BindsTo=graphical-session.target
+#Wants=graphical-session-pre.target
+#After=graphical-session-pre.target
+
+[Service]
+WorkingDirectory=/home/marcel/IdeaProjects/LaunchpadSwayControler/
+ExecStart=/usr/bin/cargo run -p launchpad_sway_controler
+
+[Install]
+WantedBy=default.target

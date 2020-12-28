@@ -1,0 +1,10 @@
+[Unit]
+Description=Wayland VNC over yggdrasil
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/wayvnc ::
+
+[Install]
+WantedBy=default.target

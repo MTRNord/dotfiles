@@ -1,0 +1,279 @@
+# Variables
+set $mod Mod4
+set $menu /usr/bin/sirula
+set $term kitty
+#set $browser firefox
+set $browser "firefox-nightly -P default-release --marionette"
+set $file_manager nautilus
+
+# Named workspaces
+set $ws1 "1:"
+set $ws2 "2:"
+set $ws3 "3:"
+set $ws4 number 4
+set $ws5 "5:"
+set $ws6 number 6
+set $ws7 number 7
+set $ws8 number 8
+set $ws9 number 9
+set $ws10 number 10
+set $ws11 "11:"
+set $ws12 "12:"
+set $ws13 "13:"
+set $ws14 number 15
+set $ws15 number 15
+set $ws16 number 16
+set $ws17 number 17
+set $ws18 number 18
+set $ws19 "19:"
+set $ws20 "20:"
+set $ws21 "21:"
+set $ws42 "42:"
+
+# Colors               (border  bg      text    indicator child_border)
+#client.focused          #bdbdbd #bdbdbd #000000 #bdbdbd   #bdbdbd
+#client.focused_inactive #333333 #5f676a #ffffff #5f676a   #5f676a
+#client.unfocused        #1e1e1e #1e1e1e #bdbdbd #1e1e1e   #1e1e1e
+#client.urgent           #2f343a #900000 #ffffff #900000   #900000
+
+client.focused          #5e81ac #5e81ac #eceff4 #434c5e   #5e81ac
+client.focused_inactive #4c566a #4c566a #d8dee9 #3b4252   #434c5e
+client.unfocused        #4c566a #4c566a #d8dee9 #3b4252   #434c5e
+client.urgent           #bf616a #bf616a #eceff4 #900000   #bf616a
+client.placeholder      #000000 #0c0c0c #eceff4 #000000   #0c0c0c
+
+
+# Font
+font pango:Encode Sans 11
+#font pango:Monospace, FontAwesome, 9
+
+# Window borders
+default_border pixel 3
+#default_floating_border pixel 1
+hide_edge_borders --i3 smart
+
+workspace_layout default
+#popup_during_fullscreen leave_fullscreen # TODO
+
+
+# Input device configuration
+input * {
+    xkb_layout de
+    xkb_variant nodeadkeys
+    xkb_options compose:caps
+    xkb_numlock enabled
+}
+
+# Output configuration
+#output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg /home/marcel/wallpaper/cherry_blossom_by_tomprante_d8shzqg.jpg fill
+
+output DP-1 scale 1.75 pos 0 0
+output HDMI-A-1 pos 2194 0
+
+# Default workspaces for common programs
+assign [class="^Signal$"] $ws2
+assign [class="^Element"] $ws2
+assign [class="^hydrogen"] $ws2
+assign [class="^whatsapp"] $ws2
+assign [app_id="^thunderbird$"] $ws3
+assign [class="^Steam$"] $ws11
+assign [class="^Spotify"] $ws42
+assign [app_id="^org.keepassxc.KeePassXC$" title="KeePassXC$"] $ws21
+
+# Layout defaults
+#for_window [app_id="^firefox$"] layout tabbed
+for_window [app_id="^thunderbird$"] layout tabbed
+#for_window [class="^Code" title="Visual Studio Code"] layout tabbed
+# Nautilus typeahead popup
+for_window [app_id="^nautilus$" title="^nautilus$"] floating enable
+# gtk-rs programs have this id by default
+for_window [app_id="^\.$"] floating enable
+for_window [title="Discord Updater"] floating enable
+for_window [app_id="imv"] floating enable
+for_window [app_id="pavucontrol"] floating enable, sticky enable, resize set width 550 px height 600px, move position cursor, move down 330
+
+# Other window-specific settings
+for_window [class="^Signal$"] opacity 0.9
+for_window [class="^Riot$"] opacity 0.9
+for_window [class="^Element$"] opacity 0.9
+for_window [app_id="^org.gnome.Nautilus$"] opacity 0.9
+for_window [class="^hydrogen"] opacity 0.9
+for_window [class="^whatsapp"] opacity 0.9
+for_window [app_id="kitty"] opacity 0.7
+
+# Program shortcuts
+bindsym $mod+Return exec $term
+bindsym $mod+n exec $file_manager
+bindsym $mod+y workspace $ws1; exec $browser
+
+# Autostart
+exec mako
+exec autotiling
+exec $browser
+exec /home/marcel/Applications/hydrogen/hydrogen
+exec /home/marcel/Applications/whatsapp/whatsapp
+exec "dex /usr/share/applications/org.keepassxc.KeePassXC.desktop"
+exec signal
+exec spotify
+#exec sh -c "nmcli monitor | while read _; do pkill -RTMIN+1 waybar; done >/dev/null"
+
+# Notifications
+bindsym Control+Space exec makoctl dismiss
+bindsym Control+Shift+Space exec makoctl dismiss --all
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Start your launcher
+bindsym $mod+d exec $menu
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+
+# Exit sway (logs you out of your wayland session)
+bindsym $mod+Shift+e exit
+
+# Move your focus around with $mod+[h|j|k|l], like vim
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+# or use $mod+[up|down|left|right]
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# _move_ the focused window with the same, but add Shift
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+# ditto, with arrow keys
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Move workspace to monitor
+bindsym $mod+Ctrl+Left move workspace to output left
+bindsym $mod+Ctrl+Down move workspace to output down
+bindsym $mod+Ctrl+Up move workspace to output up
+bindsym $mod+Ctrl+Right move workspace to output right
+
+# Switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+bindsym $mod+F1 workspace $ws11
+bindsym $mod+F2 workspace $ws12
+bindsym $mod+F3 workspace $ws13
+bindsym $mod+F4 workspace $ws14
+bindsym $mod+F5 workspace $ws15
+bindsym $mod+F6 workspace $ws16
+bindsym $mod+F7 workspace $ws17
+bindsym $mod+F8 workspace $ws18
+bindsym $mod+F9 workspace $ws19
+bindsym $mod+F10 workspace $ws20
+bindsym $mod+F11 workspace $ws21
+bindsym $mod+F12 workspace $ws42
+
+
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+bindsym $mod+Shift+F1 move container to workspace $ws11
+bindsym $mod+Shift+F2 move container to workspace $ws12
+bindsym $mod+Shift+F3 move container to workspace $ws13
+bindsym $mod+Shift+F4 move container to workspace $ws14
+bindsym $mod+Shift+F5 move container to workspace $ws15
+bindsym $mod+Shift+F6 move container to workspace $ws16
+bindsym $mod+Shift+F7 move container to workspace $ws17
+bindsym $mod+Shift+F8 move container to workspace $ws18
+bindsym $mod+Shift+F9 move container to workspace $ws19
+bindsym $mod+Shift+F10 move container to workspace $ws20
+bindsym $mod+Shift+F11 move container to workspace $ws21
+bindsym $mod+Shift+F12 move container to workspace $ws42
+
+# Layout stuff
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+# Switch the current container between different layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Make the current focus fullscreen
+bindsym $mod+f fullscreen
+
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+space floating toggle
+
+# Swap focus between the tiling area and the floating area
+bindsym $mod+space focus mode_toggle
+
+# move focus to the parent container
+bindsym $mod+a focus parent
+
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+
+exec waybar -c ~/.config/waybar/config.json
+#exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * dpms off"' \
+#               resume 'swaymsg "output * dpms on"' \
+#          before-sleep 'swaylock -e -F -f -c 000000'
+
+#bindsym $mod+p exec swaylock -i "/usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png" fill
+#set $screenshot grim ~/Downloads/scrn-$(date +"%Y-%m-%d-%H-%M-%S").png
+#set $screenclip slurp | grim -g - ~/Downloads/scrn-$(date +"%Y-%m-%d-%H-%M-%S").png
+set $screenclip grim -g "$(slurp)" - | swappy -f -
+set $screenshot grim - | swappy -f - 
+set $fullscreenshot ~/fullscreenshot.sh
+
+bindsym $mod+Print exec $screenshot
+bindsym $mod+Shift+Print exec $screenclip
+bindsym $mod+Ctrl+Print exec $fullscreenshot
+
+
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+gaps inner 12
+gaps outer 5
+
+bindsym $mod+Ctrl+e exec wlogout -p layer-shell
+
+
+# Volume controls
+bindsym XF86AudioRaiseVolume exec pamixer -i 5
+bindsym XF86AudioLowerVolume exec pamixer -d 5
+bindsym XF86AudioMute        exec pamixer -t
+
+# Music player controls
+bindsym XF86AudioPrev exec playerctl stop && playerctl previous && playerctl play
+bindsym XF86AudioPlay exec playerctl play-pause || quodlibet --run --play
+bindsym XF86AudioNext exec playerctl next && playerctl play
